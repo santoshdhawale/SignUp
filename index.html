@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <div class="form-container" id="signupContainer">
-            <form id="signupForm" class="signup-form" onsubmit="redirectToLogin(); return false;">
+            <form id="signupForm" class="signup-form" onsubmit="validatePassword(); return false;">
                 <h2>Sign Up</h2>
 
                 <label for="fullName">Full Name:</label>
-                <input type="text" id="fullName" name="fullName" required>
+                <input type="text" id="fullName" name="fullName" minlength="3" required>
 
                 <label for="birthdate">Birth Date:</label>
                 <input type="date" id="birthdate" name="birthdate" required>
@@ -27,12 +27,14 @@
 
                 <label for="newPassword">Password:</label>
                 <input type="password" id="newPassword" name="newPassword" required>
+                <small>Password must contain at least one capital letter, one number, and one symbol.</small>
 
                 <label for="confirmPassword">Confirm Password:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
 
                 <button type="submit">Sign Up</button>
                 <p >Already have an account?<a href="login.html">Login here</a>.</p>
+
             </form>
 
             <div class="signup-success" id="signupSuccess" style="display:none;">
@@ -42,12 +44,22 @@
     </div>
 
     <script>
-        function redirectToLogin() {
-            // Simulate a successful form submission
-            setTimeout(function() {
-                document.getElementById('signupForm').style.display = 'none';
-                document.getElementById('signupSuccess').style.display = 'block';
-            }, 2000); // Simulating a delay of 2 seconds
+        function validatePassword() {
+            var password = document.getElementById('newPassword').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Password validation logic
+            var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+            if (password === confirmPassword && passwordRegex.test(password)) {
+                // Simulate a successful form submission
+                setTimeout(function() {
+                    document.getElementById('signupForm').style.display = 'none';
+                    document.getElementById('signupSuccess').style.display = 'block';
+                }, 2000); // Simulating a delay of 2 seconds
+            } else {
+                alert("Passwords do not match or do not meet the requirements. Please check and try again.");
+            }
         }
     </script>
 </body>
